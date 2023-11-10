@@ -13,6 +13,11 @@ const router = createRouter({
       name: 'AddBug',
       component: () => import('../views/AddBug.vue')
 
+    },
+    {
+      path: '/BugList',
+      name: 'BugList',
+      component: () => import('../views/BugList.vue')
     }
   ]
 })

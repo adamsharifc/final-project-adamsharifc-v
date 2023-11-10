@@ -32,7 +32,8 @@ const submitForm = async (event) => {
 </script>
 
 <template>
-    <h1>ADD BUG</h1>
+    <h1 style="text-align: center;">SQUASHEM</h1>
+    <h3 style="text-align: center;">NEW BUG REPORT</h3>
     <div class="content-page">
         <form @submit="submitForm" class="add-form">
             <input v-model="title" type="text" name="title" placeholder="Title" class="add-form-field" required>
@@ -49,4 +50,46 @@ const submitForm = async (event) => {
 </template>
 
 <style scoped>
+.add-form{
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+.add-form-field{
+	color: var(--secondary-color);
+	font-size: large;
+	padding: 5px;
+	padding-right: 20px;
+	height: max-content;
+}
+.add-form-submit{
+	color: var(--main-color);
+	background: var(--accent-color);
+	border: 1px solid var(--accent-color);
+	width: max-content;
+	border: transparent;
+	align-self: center;
+	font-size: large;
+	border-radius: 5px;
+	font-weight: bold;
+	padding: 6px 20px 6px 20px;
+}
+.add-form-submit:hover{
+	background: var(--priamry-color);
+	color: var(--accent-color);
+	transition: ease-in-out 0.3s;
+	border: 1px solid var(--accent-color);
+}
+.add-form-submit:active{
+	background: var(--accent-color);
+	color: var(--main-color);
+	border: 1px solid var(--accent-color);
+}
+
+.content-page{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
 </style>
