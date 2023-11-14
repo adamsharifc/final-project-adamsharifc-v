@@ -1,0 +1,12 @@
+Pallete
+E63946, F1FAEE, A8DADC, 457B9D, 1D3557
+
+Primary-Color: F1FAEE
+Secondary-Color: 1D3557
+Accent-Color-1: 457B9D
+Accent-Color-2: A8DADC
+Alert-Color: E63946
+
+Fonts
+Primary-Font: 'Satoshi', sans-serif;
+Mono-Font: 'Roboto Mono', monospace;
