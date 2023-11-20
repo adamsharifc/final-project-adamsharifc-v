@@ -1,8 +1,11 @@
 <script setup>
-
+import DataGrid from '../components/DataGrid.vue';
 </script>
 <template>
-    <div class="bug-feed-container">
+    <DataGrid>
+        
+    </DataGrid>
+    <!-- <div class="bug-feed-container">
         <div class="bug-table-container">
             <table class="bug-table">
                 <thead>
@@ -23,7 +26,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> -->
 </template>
 <style scoped>
 .bug-feed-container{

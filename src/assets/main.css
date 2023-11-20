@@ -34,6 +34,17 @@
   --h1-font-size: 2rem;
   --h2-font-size: 1rem;
   --default-texture--background: repeating-linear-gradient( 120deg, var(--primary-color), var(--primary-color) 5px, var(--accent-color-2) 5px, var(--accent-color-2) 10px);
+
+  --status-new: #87CEEB;
+  --status-open: #FFD700;
+  --status-in-progess: #FF8C00;
+  --status-on-hold:  #D3D3D3;
+  --status-fixed: #32CD32;
+  --status-closed: #DC143C;
+  --status-wont-fix: #4B0082;
+  --status-duplicate: #2E8B57;
+  --status-invalid: #D2691E;
+
 }
 
 html{

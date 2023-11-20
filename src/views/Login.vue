@@ -9,6 +9,14 @@ onMounted(() => {
     }
 });
 
+function login(){
+    
+}
+
+function signup(){
+
+}
+
 </script>
 <template>
     <div style="display: flex; align-items:center; justify-content:center; height:99vh;" class="texture">
@@ -21,7 +29,7 @@ onMounted(() => {
                 <input class="standard-form-field" type="password" name="password" id="password" placeholder="Password" />
                 <div class="standard-button" id="signin-submit-button">
                     <i class="uil uil-signin"></i>
-                    <span> Log In</span>
+                    <span @click="login"> Log In</span>
                 </div>            
             </form>
             
@@ -34,7 +42,7 @@ onMounted(() => {
                 <div style="margin-top: 0.3rem;"></div>
                 <input class="standard-form-field" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" />
                 <div class="standard-button" id="signin-submit-button">
-                    <span> Sign Up</span>
+                    <span @click="signup"> Sign Up</span>
                 </div>            
             </form>
             

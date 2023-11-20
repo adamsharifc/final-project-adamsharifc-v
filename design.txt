@@ -10,3 +10,34 @@ Alert-Color: E63946
 Fonts
 Primary-Font: 'Satoshi', sans-serif;
 Mono-Font: 'Roboto Mono', monospace;
+
+New/Unassigned
+
+Hex Color: #3498db
+Assigned
+
+Hex Color: #e67e22
+In Progress
+
+Hex Color: #2ecc71
+Pending Review
+
+Hex Color: #f39c12
+Resolved
+
+Hex Color: #27ae60
+Closed
+
+Hex Color: #2c3e50
+Reopened
+
+Hex Color: #e74c3c
+Deferred
+
+Hex Color: #95a5a6
+Duplicate
+
+Hex Color: #8e44ad
+Won't Fix
+
+Hex Color: #c0392b
