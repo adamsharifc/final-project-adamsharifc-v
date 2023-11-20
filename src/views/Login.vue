@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted} from 'vue';
-
+import axios from 'axios';
 const in_or_up = ref('in');
 onMounted(() => {
     const hash = window.location.hash.substring(1);
@@ -9,24 +9,61 @@ onMounted(() => {
     }
 });
 
-function login(){
+// function login(){
     
-}
+// }
 
-function signup(){
+// function signup(){
 
-}
+// }
 
+</script>
+<script>
+export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:3000/api/login', {
+          username: this.username,
+          password: this.password,
+        });
+        console.log(response.data);
+        // Handle successful login, e.g., redirect to another page
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    },
+    async signup() {
+      try {
+        const response = await axios.post('http://localhost:3000/api/signup', {
+          username: this.username,
+          password: this.password,
+          email: this.email,
+        });
+        console.log(response.data);
+        // Handle successful signup, e.g., redirect to another page
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    },
+  },
+};
 </script>
 <template>
     <div style="display: flex; align-items:center; justify-content:center; height:99vh;" class="texture">
         <div class="login-box">
             <span style="color: var(--secondary-color); font-weight: bold; font-size: larger;">SQUASHEM</span>
             <div style="margin-bottom: 0.6rem;"></div>
-            <form action="" method="post" style="display: flex; flex-direction:column;" v-if="in_or_up=='in'">
-                <input class="standard-form-field" type="text" name="username" id="username" placeholder="Username" />
+            <form action="" method="post" style="display: flex; flex-direction:column;" v-if="in_or_up=='in'" @submit.prevent="login">
+                <input class="standard-form-field" type="text" name="username" id="username" placeholder="Username" v-model="username" required/>
                 <div style="margin-top: 0.3rem;"></div>
-                <input class="standard-form-field" type="password" name="password" id="password" placeholder="Password" />
+                <input class="standard-form-field" type="password" name="password" id="password" placeholder="Password" v-model="password" required/>
                 <div class="standard-button" id="signin-submit-button">
                     <i class="uil uil-signin"></i>
                     <span @click="login"> Log In</span>
@@ -34,11 +71,11 @@ function signup(){
             </form>
             
             <form action="" method="post" style="display: flex; flex-direction:column;" v-if="in_or_up=='up'">
-                <input class="standard-form-field" type="text" name="username" id="username" placeholder="Username" />
+                <input class="standard-form-field" type="text" name="username" id="username" placeholder="Username" v-model="username" required/>
                 <div style="margin-top: 0.3rem;"></div>
-                <input class="standard-form-field" type="email" name="email" id="email" placeholder="Email" />
+                <input class="standard-form-field" type="email" name="email" id="email" placeholder="Email" v-model="email" required/>
                 <div style="margin-top: 0.3rem;"></div>
-                <input class="standard-form-field" type="password" name="new-password" id="new-password" placeholder="New Password" />
+                <input class="standard-form-field" type="password" name="new-password" id="new-password" placeholder="New Password" v-model="password" required/>
                 <div style="margin-top: 0.3rem;"></div>
                 <input class="standard-form-field" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" />
                 <div class="standard-button" id="signin-submit-button">
