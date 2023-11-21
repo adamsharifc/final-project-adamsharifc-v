@@ -29,8 +29,7 @@ const submitForm = async (event) => {
     };
 
     try {
-        // const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/newSolution', formData);
-        const response = await axios.post('http://localhost:3000/api/newSolution', formData);
+        const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/newSolution', formData);
         console.log(formData);
         console.log('i am here');
         console.log(response.data);
