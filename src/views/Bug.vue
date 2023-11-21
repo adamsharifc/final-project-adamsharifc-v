@@ -2,7 +2,7 @@
 import {RouterLink, useRoute} from 'vue-router';
 import {ref, onMounted, onUnmounted} from 'vue';
 import axios from 'axios';
-import StatusTD from '../components/StatusTD.vue';
+// import StatusTD from '../components/StatusTD.vue';
 import AddSolutionLinked from '../components/AddSolutionLinked.vue';
 
 const data = ref([]);
