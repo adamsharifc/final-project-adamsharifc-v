@@ -37,7 +37,7 @@ onMounted(getData);
         </thead>
         <tbody style="font-size: medium;">
             <tr v-for="(item, index) in data" :key="index" @click="openBug(item._id)">
-                <td>{{item.name}}</td>
+                <td>{{item.title}}</td>
                 <td>{{item.addedBy}}</td>                
                 <td>{{item.priority}}</td>
                 <td>{{item.tags}}</td>
