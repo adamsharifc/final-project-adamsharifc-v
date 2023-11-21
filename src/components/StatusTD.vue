@@ -1,56 +1,24 @@
 <script setup>
-import {toRef} from 'vue';
+import {toRef, computed, ref} from 'vue';
 
 const props = defineProps({
-    status: String
+    status: String,
 })
 const status = toRef(props, 'status');
+const statusStyle = ref('')
 
-const statusStyle = computed(() =>{
-    switch(status.value){
-        case 'New':
-            return {
-                backgroundColor: '#87CEEB'
-            }
-        case 'Open':
-            return {
-                backgroundColor: '#FFD700'
-            }
-        case 'In Progress':
-            return {
-                backgroundColor: '#FF8C00'
-            }
-        case 'On Hold':
-            return {
-                backgroundColor: '#D3D3D3'
-            }
-        case 'Fixed':
-            return {
-                backgroundColor: '#32CD32'
-            }
-        case 'Closed':
-            return {
-                backgroundColor: '#DC143C'
-            }
-        case "Won't Fix":
-            return {
-                backgroundColor: '#480082'
-            }
-        case 'Duplicate':
-            return {
-                backgroundColor: '#2E8B57'
-        }
-        case 'Invalid':
-            return {
-                backgroundColor: '#D2691E'
-        }
-        default:
-            return {
-                backgroundColor: '#000000'
-            }
-    }
-})
-
+switch(status.value){
+    case 'New': statusStyle.value = {backgroundColor: '#87CEEB'};break;
+    case 'Open': statusStyle.value = {backgroundColor: '#1DB954'};break;
+    case 'In Progress': statusStyle.value = {backgroundColor: '#FF8C00'};break;
+    case 'On Hold': statusStyle.value = {backgroundColor: '#D3D3D3'};break;
+    case 'Fixed': statusStyle.value = {backgroundColor: '#32CD32'};break;
+    case 'Closed': statusStyle.value = {backgroundColor: '#DC143C'};break;
+    case "Won't Fix": statusStyle.value = {backgroundColor: '#480082'};break;
+    case 'Duplicate': statusStyle.value = {backgroundColor: '#2E8B57'};break;
+    case 'Invalid': statusStyle.value = {backgroundColor: '#D2691E'};break;
+    default: statusStyle.value = {backgroundColor: '#000000'};break;
+}
 </script>
 <template>
     <span :style="statusStyle">{{status}}</span>
@@ -61,7 +29,7 @@ span{
     padding: 0.1rem 0.25rem;
     border-radius: 0.5rem;
     font-size: medium;
-    font-weight: 400;
+    font-weight: 500;
     background-color: black;
     color: white;
 }

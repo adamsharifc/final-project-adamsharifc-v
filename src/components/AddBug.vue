@@ -7,6 +7,7 @@ let title = ref('');
 let tags = ref('');
 let description = ref('');
 let priority = ref('');
+let status = ref('');
 
 const emit = defineEmits(['close-dialog']);
 
@@ -19,6 +20,7 @@ const submitForm = async (event) => {
         tags: tags.value,
         description: description.value,
         priority: priority.value,
+        status: status.value
     };
 
     try {
@@ -41,9 +43,16 @@ const submitForm = async (event) => {
             <input v-model="tags" type="text" name="tags" placeholder="Tags" class="standard-form-field" id="new-bug-field" required>
             <input v-model="description" type="text" name="description" placeholder="Description" class="standard-form-field" id="new-bug-field" required>
             <select v-model="priority" name="priority" class="standard-form-field" id="new-bug-field" required>
+                <option value="" disabled selected>Priority</option>
                 <option value="Urgent">Urgent</option>
                 <option value="Semi-urgent">Semi-urgent</option>
                 <option value="Not urgent">Not urgent</option>
+            </select>
+            <select v-model="status" name="status" class="standard-form-field" id="new-bug-field" required>
+                <option value="" disabled selected>Status</option>
+                <option value="New">New</option>
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
             </select>
             <div class="standard-button" id="bug-submit-button" @click="submitForm">
                 <i class="uil uil-corner-down-right-alt"></i>

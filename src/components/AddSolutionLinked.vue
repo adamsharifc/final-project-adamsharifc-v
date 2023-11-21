@@ -4,7 +4,11 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
-let bugId = ref('');
+const props = defineProps({
+    bugID: String
+});
+
+let bugID = ref('');
 let resolvedBy = ref('');
 let resolutionDetail = ref('');
 let status = ref('');
@@ -17,7 +21,7 @@ const submitForm = async (event) => {
     event.preventDefault();
 
     const formData = {
-        bugId: bugId.value,
+        bugId: props.bugID,
         resolvedBy: resolvedBy.value,
         resolutionDetail: resolutionDetail.value,
         status: status.value,
@@ -25,7 +29,8 @@ const submitForm = async (event) => {
     };
 
     try {
-        const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/newSolution', formData);
+        // const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/newSolution', formData);
+        const response = await axios.post('http://localhost:3000/api/newSolution', formData);
         console.log(formData);
         console.log('i am here');
         console.log(response.data);
@@ -40,7 +45,6 @@ const submitForm = async (event) => {
     <div class="content-page">
         <form @submit="submitForm" class="add-form">
 
-            <input v-model="bugId" type="text" name="bugId" placeholder="Bug ID" class="standard-form-field" id="new-solution-field" required>
             <input v-model="resolvedBy" type="text" name="resolvedBy" placeholder="Resolved By" class="standard-form-field" id="new-solution-field" required>
             <input v-model="resolutionDetail" type="text" name="resolutionDetail" placeholder="Resolution Detail" class="standard-form-field" id="new-solution-field" required>
             <select v-model="status" name="status" class="standard-form-field" id="new-solution-field" required>

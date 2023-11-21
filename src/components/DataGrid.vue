@@ -80,5 +80,14 @@ const data = [
     font-weight: 500;
     padding: 0.25rem;
     text-align: left;   
+    cursor: default;
+}
+
+.dg tbody tr:hover{
+    background: var(--secondary-color);
+    transition: ease-in-out 0.25s;
+}
+.dg tbody tr:hover td{
+    color: var(--primary-color);
 }
 </style>
