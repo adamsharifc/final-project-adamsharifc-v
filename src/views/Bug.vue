@@ -8,6 +8,7 @@ import AddSolutionLinked from '../components/AddSolutionLinked.vue';
 const data = ref([]);
 const solutions = ref([]);
 const sol1 = ref([]);
+const solExists = ref(false);
 const route = useRoute();
 const getData = async () => {
     try {
@@ -17,7 +18,6 @@ const getData = async () => {
             }
         });
         data.value = response.data;
-        console.log(JSON.stringify(data.value));
     } catch (error) {
         console.error(error);
     }
@@ -31,7 +31,11 @@ const getSolutions = async () =>{
             }
         });
         solutions.value = await response.data;
+        if(solutions.value.length > 0){
+            solExists.value = true;
+        }
         sol1.value = await solutions.value[0];
+
     } catch (error) {
         console.error(error);
     }
@@ -78,12 +82,15 @@ onUnmounted(() => {
         <dialog ref="newSolutionDialog">
             <AddSolutionLinked @close-dialog="closeNewSolutionDialog" :bugID="data._id"></AddSolutionLinked>
         </dialog>
-        <div style="font-size: x-large; display:flex;">
+        <div style="font-size: x-large; display:flex;" v-if="solExists">
             Bug ID: {{sol1._id}} <br>
             resolvedBy: {{sol1.resolvedBy}}<br>
             resolutionDetail: {{sol1.resolutionDetail}}<br>
             status: {{sol1.status}}<br>
             verifiedBy: {{sol1.verifiedBy}}
+        </div>
+        <div v-else>
+            <span>No Solutions</span>
         </div>
     </div>
 </template>
