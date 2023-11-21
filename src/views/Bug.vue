@@ -77,7 +77,7 @@ onUnmounted(() => {
             <AddSolutionLinked @close-dialog="closeNewSolutionDialog" :bugID="data._id"></AddSolutionLinked>
         </dialog>
         <div style="font-size: x-large; display:flex;">
-            Bug ID: {{solutions._id}} <br>
+            <!-- Bug ID: {{solutions._id}} <br> -->
             resolvedBy: {{solutions.resolvedBy}}<br>
             resolutionDetail: {{solutions.resolutionDetail}}<br>
             status: {{solutions.status}}<br>
