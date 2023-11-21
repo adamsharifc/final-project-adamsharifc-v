@@ -7,6 +7,7 @@ import AddSolutionLinked from '../components/AddSolutionLinked.vue';
 
 const data = ref([]);
 const solutions = ref([]);
+const sol1 = ref([]);
 const route = useRoute();
 const getData = async () => {
     try {
@@ -29,8 +30,8 @@ const getSolutions = async () =>{
                 id: route.params.id
             }
         });
-        solutions.value = response.data;
-        solutions.value = solutions.value[0];
+        solutions.value = await response.data;
+        sol1.value = await solutions.value[0];
     } catch (error) {
         console.error(error);
     }
@@ -38,6 +39,7 @@ const getSolutions = async () =>{
 
 
 const newSolutionDialog = ref(null); // This will hold a reference to the dialog element
+solutions.value = solutions.value[0];
 const showNewSolutionDialog = () => newSolutionDialog.value.showModal(); // This opens the dialog
 const closeNewSolutionDialog = () => newSolutionDialog.value.close(); // This closes the dialog
 
@@ -77,11 +79,11 @@ onUnmounted(() => {
             <AddSolutionLinked @close-dialog="closeNewSolutionDialog" :bugID="data._id"></AddSolutionLinked>
         </dialog>
         <div style="font-size: x-large; display:flex;">
-            <!-- Bug ID: {{solutions._id}} <br> -->
-            resolvedBy: {{solutions.resolvedBy}}<br>
-            resolutionDetail: {{solutions.resolutionDetail}}<br>
-            status: {{solutions.status}}<br>
-            verifiedBy: {{solutions.verifiedBy}}
+            Bug ID: {{sol1._id}} <br>
+            resolvedBy: {{sol1.resolvedBy}}<br>
+            resolutionDetail: {{sol1.resolutionDetail}}<br>
+            status: {{sol1.status}}<br>
+            verifiedBy: {{sol1.verifiedBy}}
         </div>
     </div>
 </template>
