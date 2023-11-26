@@ -4,6 +4,7 @@
   --accent-color-1: #0f4c81;
   --accent-color-2: #a8dadc;
   --alert-color: #e63946;
+  --contrast-color: #2c1d57;
 
     /* --primary-color: #ffffff;
   --secondary-color: rgb(28, 69, 67);
@@ -44,6 +45,12 @@
   --status-wont-fix: #4B0082;
   --status-duplicate: #2E8B57;
   --status-invalid: #D2691E;
+
+  --priority-urgent: #EB5353;
+  --priority-semi-urgent: #F9D923;
+  --priority-not-urgent: #36AE7C;
+  --priority-informational: #187498;
+  --priority-default: #000000;
 
 }
 

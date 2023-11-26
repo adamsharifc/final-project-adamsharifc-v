@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted} from 'vue';
+import { useAuthStore } from '../stores/auth';
 import axios from 'axios';
 const in_or_up = ref('in');
 onMounted(() => {
@@ -8,22 +9,17 @@ onMounted(() => {
         in_or_up.value = 'up';
     }
 });
-
-// function login(){
-    
-// }
-
-// function signup(){
-
-// }
-
 </script>
 <script>
 export default {
   data() {
     return {
+      name: '',
+      email: '',
       username: '',
       password: '',
+      confirm_password: '',
+      error_message: '',
     };
   },
   methods: {
@@ -33,19 +29,87 @@ export default {
           username: this.username,
           password: this.password,
         });
-        console.log(response.data);
+
+        const authStore = useAuthStore();
+        authStore.login(response.data);
+        this.$router.push('/Dashboard');
         // Handle successful login, e.g., redirect to another page
       } catch (error) {
         console.error(error.response.data.message);
       }
     },
-    async signup() {
+    async isUniqueUsername() {
       try {
-        const response = await axios.post('http://localhost:3000/api/signup', {
+        const response = await axios.get('http://localhost:3000/api/isUniqueUsername', {
           username: this.username,
-          password: this.password,
+        });
+        if (response.data.isUnique == true) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    },
+    async isUniqueEmail() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/isUniqueEmail', {
           email: this.email,
         });
+        if (response.data.isUnique == true) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    },
+
+
+    async signup() {
+      this.error_message = '';
+      if (!(await this.isUniqueUsername())) {
+        this.error_message = '* Username already taken';
+        return;
+      }
+      if (!(await this.isUniqueEmail())) {
+        this.error_message = '* Email already taken';
+        return;
+      }
+      if (this.password !== this.confirm_password) {
+        this.error_message = '* Passwords do not match';
+        return;
+      }
+      if (this.password.length < 8) {
+        this.error_message = '* Password must be at least 8 characters long';
+        return;
+      }
+      if (this.username.length < 4) {
+        this.error_message = '* Username must be at least 4 characters long';
+        return;
+      }
+      if (this.name.length < 4) {
+        this.error_message = '* Name must be at least 4 characters long';
+        return;
+      }
+      if (!this.email.includes('@')) {
+        this.error_message = '* Invalid email';
+        return;
+      }
+
+
+      try {
+        const response = await axios.post('http://localhost:3000/api/signup', {
+          name: this.name,
+          username: this.username,
+          password: this.password,
+          confirm_password: this.confirm_password,
+          email: this.email,
+        });
+        console.log('signup success');
+        this.$router.push('/Login');
         console.log(response.data);
         // Handle successful signup, e.g., redirect to another page
       } catch (error) {
@@ -71,20 +135,26 @@ export default {
             </form>
             
             <form action="" method="post" style="display: flex; flex-direction:column;" v-if="in_or_up=='up'">
+                <input class="standard-form-field" type="text" name="name" id="name" placeholder="Name" v-model="name" required/>
+                <div style="margin-top: 0.3rem;"></div>  
                 <input class="standard-form-field" type="text" name="username" id="username" placeholder="Username" v-model="username" required/>
                 <div style="margin-top: 0.3rem;"></div>
                 <input class="standard-form-field" type="email" name="email" id="email" placeholder="Email" v-model="email" required/>
                 <div style="margin-top: 0.3rem;"></div>
                 <input class="standard-form-field" type="password" name="new-password" id="new-password" placeholder="New Password" v-model="password" required/>
                 <div style="margin-top: 0.3rem;"></div>
-                <input class="standard-form-field" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" />
+                <input class="standard-form-field" type="password" name="confirm-password" id="confirm-password" v-model="confirm_password" placeholder="Confirm Password" required />
                 <div class="standard-button" id="signin-submit-button">
                     <span @click="signup"> Sign Up</span>
                 </div>            
             </form>
             
-            <div style="margin-top: 0.5rem;"></div>
-            
+            <div style="margin-top: 0.3rem;"></div>
+            <div>
+              <span style="font-size: medium; color: var(--alert-color); text-align:center;" v-if="error_message != ''">{{ error_message }}</span>
+            </div>
+            <div style="margin-top: 0.3rem;"></div>
+
             <span style="font-size: medium; color: var(--secondary-color); text-align:center;" v-if="in_or_up=='in'">
                 Don't have a Squashem account? 
                 <span class="signup-now-button" @click="in_or_up='up'">Sign Up Now</span>
@@ -103,8 +173,8 @@ export default {
 }
 .login-box{
     min-height: min-content;
-    height: 13rem;
-    width: 13rem;
+    height: 14rem;
+    width: 14rem;
     background: rgba(255,255,255, 0.75);
     border-radius: 0.5rem;
     padding: 0.4rem;

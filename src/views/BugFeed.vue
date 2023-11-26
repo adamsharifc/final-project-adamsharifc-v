@@ -3,16 +3,21 @@ import {RouterLink, useRouter} from 'vue-router';
 import {ref, onMounted} from 'vue';
 import axios from 'axios';
 import StatusTD from '../components/StatusTD.vue';
+import UserTD from '../components/UserTD.vue';
+import PriorityTD from '../components/PriorityTD.vue';
+import TagsTD from '../components/TagsTD.vue';
 
 const router = useRouter();
 const data = ref([]);
+let loaded = ref(false);
 const getData = async () => {
     try {
         const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/getBugReports');
         data.value = response.data;
-        console.log(JSON.stringify(data.value));
+        loaded.value = true;
     } catch (error) {
         console.error(error);
+        loaded.value = false;
     }
 };
 const openBug = (id) => {
@@ -24,7 +29,7 @@ onMounted(getData);
 </script>
 
 <template>
-    <table class="dg">
+    <table class="dg" v-if="loaded==true">
         <thead>
             <tr style="position: sticky; top:0;">
                 <th>Title</th>
@@ -38,14 +43,19 @@ onMounted(getData);
         <tbody style="font-size: medium;">
             <tr v-for="(item, index) in data" :key="index" @click="openBug(item._id)">
                 <td>{{item.title}}</td>
-                <td>{{item.addedBy}}</td>                
-                <td>{{item.priority}}</td>
-                <td>{{item.tags}}</td>
+                <td><UserTD :username="item.addedBy"/></td>                
+                <td><PriorityTD :priority="item.priority"/></td>
+                <td><TagsTD :tags="item.tags"/></td>
                 <td>{{item.created}}</td>
                 <td><StatusTD :status="item.status"/></td>
             </tr>
         </tbody>
     </table>
+    <div v-else>
+        <div style="margin-top: 0.5rem;"></div>
+        <span style="font-size: larger; font-weight: 700; color: var(--secondary-color);">Loading...</span>
+        <div style="margin-top: 0.5rem;"></div>
+    </div>
 </template>
 
 <style scoped>

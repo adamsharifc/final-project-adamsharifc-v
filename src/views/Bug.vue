@@ -2,10 +2,19 @@
 import {RouterLink, useRoute} from 'vue-router';
 import {ref, onMounted, onUnmounted} from 'vue';
 import axios from 'axios';
-// import StatusTD from '../components/StatusTD.vue';
 import AddSolutionLinked from '../components/AddSolutionLinked.vue';
+import UserTD from '../components/UserTD.vue';
+import StatusTD from '../components/StatusTD.vue';
+import PriorityTD from '../components/PriorityTD.vue';
+import TagsTD from '../components/TagsTD.vue';
+import Solution from '../components/Solution.vue';
+import CommentBar from '../components/CommentBar.vue';
+import Comment from '../components/Comment.vue';
 
 const data = ref([]);
+let formattedTimestamp = ref('');
+
+
 const solutions = ref([]);
 const sol1 = ref([]);
 const solExists = ref(false);
@@ -18,6 +27,8 @@ const getData = async () => {
             }
         });
         data.value = response.data;
+         formattedTimestamp = new Date(data.value.timestamp);
+         formattedTimestamp = formattedTimestamp.toString();
     } catch (error) {
         console.error(error);
     }
@@ -34,7 +45,7 @@ const getSolutions = async () =>{
         if(solutions.value.length > 0){
             solExists.value = true;
         }
-        sol1.value = await solutions.value[0];
+        sol1.value = solutions.value[0];
 
     } catch (error) {
         console.error(error);
@@ -63,35 +74,72 @@ onUnmounted(() => {
 });
 
 
+
+
 </script>
 <template>
-    <div class="container" style="border: 2px solid red; height: 99lvh; display: flex; flex-direction:column;gap: 0.2rem;">
-        <span style="font-size: larger; text-decoration:underline; ">Bug Title</span>
-        <span style="font-size: large;">Added by {{data.addedBy}}</span>
-        <span style="font-size: large;">Priority: {{data.priority}}</span>
-        <span style="font-size: large;">Tags: {{data.tags}}</span>
-        <span style="font-size: large;">Created: {{data.created}}</span>
-        <span style="font-size: large;">Description: {{data.description}}</span>
-        <StatusTD :status="data.status"/>
-        <span>Solutions</span>
-        <div class="standard-button" id="new-bug-button" @click="showNewSolutionDialog">
-            <i class="uil uil-plus-circle"></i>
-            <span> New Solution</span>
+    <div class="container" style="padding-left: 1rem;height: 99lvh; display: flex; flex-direction:column;gap: 0.2rem;">
+        
+        <div style="display:flex;flex-direction:row;align-items:center;gap:0.5rem; font-weight:500;">
+            <span style="font-size: larger; font-weight:600;"> {{data.title}} </span>
+            <UserTD :username="data.addedBy"/>
         </div>
 
-        <dialog ref="newSolutionDialog">
-            <AddSolutionLinked @close-dialog="closeNewSolutionDialog" :bugID="data._id"></AddSolutionLinked>
-        </dialog>
-        <div style="font-size: x-large; display:flex;" v-if="solExists">
-            Bug ID: {{sol1._id}} <br>
-            resolvedBy: {{sol1.resolvedBy}}<br>
-            resolutionDetail: {{sol1.resolutionDetail}}<br>
-            status: {{sol1.status}}<br>
-            verifiedBy: {{sol1.verifiedBy}}
+        <table>
+            <tr>
+                <td> <span style="font-size: large; font-weight:500;">Status </span></td>
+                <td> <StatusTD :status="data.status"/> </td>
+            </tr>
+            <tr>
+                <td> <span style="font-size: large; font-weight:500;">Priority </span></td>
+                <td> <PriorityTD :priority="data.priority"/> </td>
+            </tr>
+            <tr>
+                <td> <span style="font-size: large; font-weight:500;">Tags </span></td>
+                <td> <TagsTD :tags="data.tags"/> </td>
+            </tr>
+            <tr>
+                <td> <span style="font-size: large; font-weight:500;">Created </span></td>
+                <td> <span style="font-size: large;"> {{formattedTimestamp}} </span></td>
+            </tr>
+            <tr>
+                <td> <span style="font-size: large; font-weight:500;">Description </span></td>
+                <td> <span style="font-size: large;">{{data.description}} </span></td>
+            </tr>
+        </table>
+        
+        <div style="display:grid; grid-template-columns: 7fr 3fr; gap: 0.5rem;">
+            <div>
+                <div style="display: flex; flex-direction: row; gap: 0.5rem;">
+                    <span style="font-size: xx-large; font-weight: 600; margin-right: auto;">Solutions</span>
+                    <div class="standard-button" id="new-bug-button" @click="showNewSolutionDialog" style="align-self: flex-end;">
+                        <i class="uil uil-plus-circle"></i>
+                        <span> New Solution</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.5rem;"></div>
+
+                <dialog ref="newSolutionDialog">
+                    <AddSolutionLinked @close-dialog="closeNewSolutionDialog" :bugID="data._id"></AddSolutionLinked>
+                </dialog>
+
+                <div v-if="solExists">
+                    <Solution :sol_id="sol1._id" :resolvedBy="sol1.resolvedBy" :resolutionDetail="sol1.resolutionDetail" :status="sol1.status" :verifiedBy="sol1.verifiedBy"/>
+                </div>
+
+                <div v-else>
+                    <span style="font-size: x-large; font-style:italic">It's lonely here</span>
+                </div>
+            </div>
+            <div style="height:auto;">
+                <span style="font-size: xx-large; font-weight: 600;">Comments</span>
+                <div style="margin-top: 0.5rem;"></div>
+                <Comment></Comment>
+                <div style="margin-top: 0.5rem;"></div>
+                <CommentBar></CommentBar>
+            </div>
         </div>
-        <div v-else>
-            <span>No Solutions</span>
-        </div>
+
     </div>
 </template>
 <style scoped>

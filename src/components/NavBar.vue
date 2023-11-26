@@ -1,13 +1,22 @@
-<script setup>
-
+<script>
+import { useAuthStore } from '../stores/auth';
+export default {
+    setup() {
+        const authStore = useAuthStore();
+        return {
+            user: authStore.user,
+        };
+    },
+};
 </script>
+
 <template>
     <div class="navbar-container">
         <router-link to="/" style="font-size: var(--h2-font-size);margin-top: 0.25rem; text-decoration: none; text-align:center;">
             <span class="logo" style="">SQUASHEM</span>
         </router-link>
         
-        <div id="nav-links" style="margin-left: 1rem; margin-top: 0.5rem;display: flex; flex-direction: column; gap: 0.3rem;">
+        <div id="nav-links" style=" margin-top: 0.5rem;display: flex; flex-direction: column; gap: 0.3rem;">
             <router-link to="/Dashboard" class="nav-link"> 
                 <i class="uil uil-dashboard"></i>
                 <span> Dashboard</span>
@@ -28,40 +37,39 @@
                 <span> Profile</span>
             </router-link>
 
-            <span class="nav-link">
-                <i class="uil uil-cog"></i>
-                <span> Settings</span>
-            </span>
         </div>
-        <router-link to="/Login" style="text-decoration: none; margin-top: auto;" >
-            <div class="standard-button" id="log-out-button">
-                <i class="uil uil-signout"></i>
-                <span> Log Out</span>
-            </div>
-        </router-link>
+        <div style="margin-top:auto;">
+            <router-link to="/Login" style="text-decoration: none" >
+                <div class="standard-button" id="log-out-button">
+                    <i class="uil uil-signout"></i>
+                    <span> Log Out</span>
+                </div>
+            </router-link>
+        </div>
+
+
+
     </div>
 </template>
 <style scoped>
 .navbar-container{
-    background: var(--secondary-color);
+    background: transparent;
     height: 98vh;    
     max-width: 9rem;
-    min-width: fit-content;
-    width: 7.2rem;
+    width: fit-content;
+    padding: 0rem 0.7rem;
     border-radius: 0.5rem;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     display: flex;
     flex-direction: column;
 }
 .logo{
     font-weight: bold;
     text-align: center;
-    color: var(--primary-color);
+    color: var(--secondary-color);
 }
 #log-out-button{
     margin-bottom: 0.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
     font-size: large;
     
     background-color: var(--primary-color);
@@ -81,15 +89,23 @@
     transition: ease-in-out 0.2s;
 }
 .nav-link{
-    color: var(--primary-color);
+    color: var(--secondary-color);
     font-size: large;
+    font-weight: 400;
     cursor: pointer;
     transition: ease-in-out 0.2s;
     text-decoration: none;
 }
 .nav-link:hover{
     filter: brightness(1.5);
-    font-weight: 500;
+    font-weight: 600;
     transition: ease-in-out 0.2s;
+}
+.user-bar{
+    cursor: default;
+}
+.user-bar:hover{
+    background: var(--primary-color);
+    color: var(--secondary-color);
 }
 </style>
