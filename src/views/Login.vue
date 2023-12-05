@@ -4,6 +4,7 @@ import { useAuthStore } from '../stores/auth';
 import axios from 'axios';
 const in_or_up = ref('in');
 onMounted(() => {
+    
     const hash = window.location.hash.substring(1);
     if (hash === 'signup') {
         in_or_up.value = 'up';
@@ -24,6 +25,7 @@ export default {
   },
   methods: {
     async login() {
+      authStore.logout();
       try {
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/login', {
           username: this.username,
@@ -69,6 +71,7 @@ export default {
 
 
     async signup() {
+      authStore.logout();
       this.error_message = '';
       if (!(await this.isUniqueUsername())) {
         this.error_message = '* Username already taken';
@@ -122,6 +125,8 @@ export default {
         });
         console.log('signup success');
         this.$router.push('/Login');
+        location.reload();
+        in_or_up.value = 'in';
         console.log(response.data);
         // Handle successful signup, e.g., redirect to another page
       } catch (error) {

@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!auth.isLoggedIn) {
+    if (!auth.getIsLoggedIn()) {
       next({
         path: '/Login',
         query: { redirect: to.fullPath }

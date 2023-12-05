@@ -63,6 +63,10 @@ export const useAuthStore = defineStore({
       this.loadState();
       return this.user_username;
     },
+    getIsLoggedIn(){
+      this.loadState();
+      return this.isLoggedIn;
+    },
     setBugID(id){
       this.current_bugID = id;
     },
