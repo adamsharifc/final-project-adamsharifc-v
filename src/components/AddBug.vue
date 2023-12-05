@@ -25,7 +25,6 @@ const submitForm = async (event) => {
 
     try {
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/newBugReport', formData);
-        // const response = await axios.post('http://localhost:5000/reviews/add', formData);
         console.log(formData);
         console.log('i am here');
         console.log(response.data);

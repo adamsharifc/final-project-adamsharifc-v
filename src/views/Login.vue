@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     async login() {
-      authStore.logout();
+      auth.logout();
       try {
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/login', {
           username: this.username,
@@ -71,7 +71,7 @@ export default {
 
 
     async signup() {
-      authStore.logout();
+      auth.logout();
       this.error_message = '';
       if (!(await this.isUniqueUsername())) {
         this.error_message = '* Username already taken';
