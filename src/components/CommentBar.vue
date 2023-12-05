@@ -1,9 +1,45 @@
-<script setup>
+<script>
+import axios from 'axios';
+import { useAuthStore } from '../stores/auth';
+export default{
+    data(){
+        return{
+            comment: '',
+        }
+    },
+    methods:{
+        async submit(){
+            const authStore = useAuthStore();
+            try{
+                
+                console.log("I was clicked");
+                const response = await axios.post('http://final-project-adamsharifc-p.vercel.app/api/submitComment', {
+                    comment: this.comment,
+                    addedBy: authStore.getUsername(),
+                    bugId: authStore.getBugID(),
+                });
+                console.log(response.data);
+
+
+                // emit comment-added event 
+                await this.$emit('comment-added', {
+                    addedBy: authStore.getUsername(),
+                    comment: this.comment,
+                });
+                this.comment = '';
+            } catch (error) {
+                console.error(error.response.data.message);
+            }
+        },
+    },
+};
 </script>
+
+
 <template>
     <div class="container">
-        <input class="bar" type="text" name="comment" id="" placeholder="Comment here, but remember, keyboards can't swim...">
-        <div class="submit">
+        <input class="bar" type="text" name="comment" id="" placeholder="Comment here, but remember, keyboards can't swim..." v-model="comment">
+        <div class="submit" @click="submit">
             <i class="uil uil-message"></i>
         </div>
     </div>
@@ -64,5 +100,15 @@
     background-color: var(--secondary-color);
     transform: skewX(-20deg);
     cursor: default;
+}
+.submit:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    transition: ease-in-out 0.2s;
+}
+.submit:hover::before{
+    background-color: var(--primary-color);
+    transition: ease-in-out 0.2s;
+    border-left: 3px solid var(--secondary-color);
 }
 </style>

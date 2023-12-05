@@ -35,6 +35,7 @@ import {RouterLink} from 'vue-router';
     display: flex;
     flex-direction: column;
     height: 98vh;
+    user-select: none;
 }
 #sign-in-up-button{
     color: var(--primary-color);

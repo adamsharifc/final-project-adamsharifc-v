@@ -10,12 +10,15 @@ import TagsTD from '../components/TagsTD.vue';
 import Solution from '../components/Solution.vue';
 import CommentBar from '../components/CommentBar.vue';
 import Comment from '../components/Comment.vue';
+import { useAuthStore } from '../stores/auth';
+
+const authStore = useAuthStore();
 
 const data = ref([]);
 let formattedTimestamp = ref('');
 
-
 const solutions = ref([]);
+const comments = ref([]);
 const sol1 = ref([]);
 const solExists = ref(false);
 const route = useRoute();
@@ -27,8 +30,10 @@ const getData = async () => {
             }
         });
         data.value = response.data;
-         formattedTimestamp = new Date(data.value.timestamp);
-         formattedTimestamp = formattedTimestamp.toString();
+        formattedTimestamp = new Date(data.value.timestamp);
+        formattedTimestamp = formattedTimestamp.toString();
+        console.log(data.value);
+        comments.value = data.value.comments;
     } catch (error) {
         console.error(error);
     }
@@ -61,6 +66,7 @@ const closeNewSolutionDialog = () => newSolutionDialog.value.close(); // This cl
 onMounted(() => {
     getData();
     getSolutions();
+    authStore.setBugID(route.params.id);
     newSolutionDialog.value.addEventListener('click', (event) => {
         if (event.target === newSolutionDialog.value) {
             closeNewSolutionDialog();
@@ -71,10 +77,19 @@ onMounted(() => {
 onUnmounted(() => {
     if (!newSolutionDialog.value) return;
     newSolutionDialog.value.removeEventListener('click', closeNewSolutionDialog);
+    authStore.setBugID(null);
 });
 
-
-
+let handleCommentAdded = ref(null);
+handleCommentAdded = (comment) => {
+    const addedBy = comment.addedBy;
+    const commentText = comment.comment;
+    console.log("I was called");
+    console.log(comment);
+    console.log(`${addedBy} said: ${commentText}`);
+    comments.value.push(comment);
+    
+};
 
 </script>
 <template>
@@ -134,9 +149,14 @@ onUnmounted(() => {
             <div style="height:auto;">
                 <span style="font-size: xx-large; font-weight: 600;">Comments</span>
                 <div style="margin-top: 0.5rem;"></div>
-                <Comment></Comment>
+            
+                <div class="comments-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div v-for="comment in comments">
+                        <Comment :comment="comment.comment" :addedBy="comment.addedBy"/>
+                    </div>
+                </div>
                 <div style="margin-top: 0.5rem;"></div>
-                <CommentBar></CommentBar>
+                <CommentBar @comment-added="handleCommentAdded"></CommentBar>            
             </div>
         </div>
 

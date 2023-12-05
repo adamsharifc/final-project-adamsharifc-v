@@ -7,6 +7,16 @@ export default {
             user: authStore.user,
         };
     },
+    methods:{
+        async logout(){
+            const authStore = useAuthStore();
+            try{
+                await authStore.logout();
+            } catch (error) {
+                console.error(error.response.data.message);
+            }
+        },
+    },
 };
 </script>
 
@@ -40,7 +50,7 @@ export default {
         </div>
         <div style="margin-top:auto;">
             <router-link to="/Login" style="text-decoration: none" >
-                <div class="standard-button" id="log-out-button">
+                <div class="standard-button" id="log-out-button" @click="logout">
                     <i class="uil uil-signout"></i>
                     <span> Log Out</span>
                 </div>

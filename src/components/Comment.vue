@@ -1,20 +1,17 @@
 <script setup>
 import {ref} from 'vue';
-const data = ref(
-    {
-        id: 1,
-        addedBy: "Adam",
-        timestamp: "2021-08-10T18:30:00.000Z",
-        comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliqu"
-    }
-);
+
+const props = defineProps({
+    comment: String,
+    addedBy: String,
+});
 
 </script>
 <template>
 <div class="container">
-    <span class="addedBy">@adamsharifc</span>
-    <span style="padding-left:0.3rem;"></span>
-    <span class="text"> {{ data.comment }}</span>
+    <span class="addedBy"> @{{ props.addedBy }}</span>
+    <span style="padding-left:0.3rem;"> </span>
+    <span class="text"> {{ props.comment }}</span>
 </div>
 </template>
 <style scoped>
