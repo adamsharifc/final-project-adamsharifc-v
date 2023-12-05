@@ -117,8 +117,6 @@ export default {
         
 
       try {
-
-        const 
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/signup', {
           name: this.name,
           username: this.username,
