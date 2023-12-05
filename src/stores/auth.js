@@ -23,7 +23,13 @@ export const useAuthStore = defineStore({
       console.log("user_name: " + this.user_name);
       console.log("user_username: " + this.user_username);
 
-      localStorage.setItem('auth', JSON.stringify(this.getState()));
+      localStorage.setItem('auth', JSON.stringify({
+        isLoggedIn: this.isLoggedIn,
+        user_id: this.user_id,
+        user_email: this.user_email,
+        user_name: this.user_name,
+        user_username: this.user_username,
+      }));
     },
     logout() {
       this.isLoggedIn = false;
