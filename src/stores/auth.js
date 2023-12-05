@@ -55,20 +55,24 @@ export const useAuthStore = defineStore({
         user_username: this.user_username,
       }
     },
-    getName(){
-      this.loadState();
+    getName: this.withLoadState(function() {
       return this.user_name;
-    },
-    getUsername(){
-      this.loadState();
+    }),
+    getUsername: this.withLoadState(function() {
       return this.user_username;
-    },
+    }),
     setBugID(id){
       this.current_bugID = id;
     },
     getBugID(){
       return this.current_bugID;
     },
+    withLoadState(fn) {
+      return (...args) => {
+        this.loadState();
+        return fn(...args);
+      };
+    }
   },
 
 });

@@ -22,6 +22,18 @@ const comments = ref([]);
 const sol1 = ref([]);
 const solExists = ref(false);
 const route = useRoute();
+
+const withErrorHandling = (fn) =>{
+    return async (...args) => {
+        try {
+            return await fn(...args);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
+
+
 const getData = async () => {
     try {
         const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/Bug', {
@@ -39,23 +51,17 @@ const getData = async () => {
     }
 };
 
-const getSolutions = async () =>{
-    try {
-        const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/bugSolutions', {
-            params: {
-                id: route.params.id
-            }
-        });
-        solutions.value = await response.data;
-        if(solutions.value.length > 0){
-            solExists.value = true;
-        }
-        sol1.value = solutions.value[0];
-
-    } catch (error) {
-        console.error(error);
+const getSolutions = withErrorHandling(async () => {
+  const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/bugSolutions', {
+    params: {
+      id: route.params.id
     }
-};
+  });
+  solutions.value = await response.data;
+  if(solutions.value.length > 0){
+    solExists.value = true;
+  }
+});
 
 
 const newSolutionDialog = ref(null); // This will hold a reference to the dialog element
@@ -139,7 +145,9 @@ handleCommentAdded = (comment) => {
                 </dialog>
 
                 <div v-if="solExists">
-                    <Solution :sol_id="sol1._id" :resolvedBy="sol1.resolvedBy" :resolutionDetail="sol1.resolutionDetail" :status="sol1.status" :verifiedBy="sol1.verifiedBy"/>
+                    <div v-for="sol in solutions">
+                        <Solution :sol_id="sol._id" :resolvedBy="sol.resolvedBy" :resolutionDetail="sol.resolutionDetail" :status="sol.status" :verifiedBy="sol.verifiedBy"/>
+                    </div>
                 </div>
 
                 <div v-else>
@@ -149,14 +157,14 @@ handleCommentAdded = (comment) => {
             <div style="height:auto;">
                 <span style="font-size: xx-large; font-weight: 600;">Comments</span>
                 <div style="margin-top: 0.5rem;"></div>
-            
+
+                <CommentBar @comment-added="handleCommentAdded"></CommentBar>            
+                <div style="margin-top: 0.5rem;"></div>
                 <div class="comments-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <div v-for="comment in comments">
                         <Comment :comment="comment.comment" :addedBy="comment.addedBy"/>
                     </div>
                 </div>
-                <div style="margin-top: 0.5rem;"></div>
-                <CommentBar @comment-added="handleCommentAdded"></CommentBar>            
             </div>
         </div>
 
