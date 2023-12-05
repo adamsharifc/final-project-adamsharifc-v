@@ -33,7 +33,6 @@ const withErrorHandling = (fn) =>{
     };
 };
 
-
 const getData = async () => {
     try {
         const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/Bug', {

@@ -13,25 +13,25 @@ const router = createRouter({
       path: '/Dashboard',
       name: 'Dashboard',
       component: () => import('../views/Dashboard.vue'),
-      // meta: {requiresAuth: true}
+      meta: {requiresAuth: true}
     },
     {
       path: '/BugFeed',
       name: 'BugFeed',
       component: () => import('../views/BugFeed.vue'),
-      // meta: {requiresAuth: true}
+      meta: {requiresAuth: true}
     },
     {
       path: '/MyReports',
       name: 'MyReports',
       component: () => import('../views/MyReports.vue'),
-      // meta: {requiresAuth: true}
+      meta: {requiresAuth: true}
     },
     {
       path: '/Profile',
       name: 'Profile',
       component: () => import('../views/Profile.vue'),
-      // meta: {requiresAuth: true}
+      meta: {requiresAuth: true}
     },
     {
       path: '/Login',
@@ -42,7 +42,7 @@ const router = createRouter({
       path: '/Bug/:id',
       name: 'Bug',
       component: () => import('../views/Bug.vue'),
-      // meta: {requiresAuth: true} //commented out for testing
+      meta: {requiresAuth: true} //commented out for testing
     }
   ]
 })

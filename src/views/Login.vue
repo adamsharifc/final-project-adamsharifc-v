@@ -99,6 +99,18 @@ export default {
         return;
       }
 
+      let hasCapitalLetter = false;
+      this.password.split('').forEach(char => {
+        if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+          hasCapitalLetter = true;
+        }
+      });
+
+      if (!hasCapitalLetter) {
+        this.error_message = '* Password must contain at least one capitalized letter';
+        return;
+      }
+        
 
       try {
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/signup', {
