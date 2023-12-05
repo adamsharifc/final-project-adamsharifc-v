@@ -25,14 +25,14 @@ export default {
   },
   methods: {
     async login() {
-      auth.logout();
+      const authStore = useAuthStore();
+      authStore.logout();
       try {
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/login', {
           username: this.username,
           password: this.password,
         });
 
-        const authStore = useAuthStore();
         authStore.login(response.data);
         this.$router.push('/Dashboard');
         // Handle successful login, e.g., redirect to another page
@@ -70,8 +70,9 @@ export default {
     },
 
 
-    async signup() {
-      auth.logout();
+    async signup() {      
+      const authStore = useAuthStore();
+      authStore.logout();
       this.error_message = '';
       if (!(await this.isUniqueUsername())) {
         this.error_message = '* Username already taken';
@@ -116,6 +117,8 @@ export default {
         
 
       try {
+
+        const 
         const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/signup', {
           name: this.name,
           username: this.username,
