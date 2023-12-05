@@ -25,7 +25,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post('http://final-project-adamsharifc-p.vercel.app/api/login', {
+        const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/login', {
           username: this.username,
           password: this.password,
         });
@@ -40,7 +40,7 @@ export default {
     },
     async isUniqueUsername() {
       try {
-        const response = await axios.get('http://final-project-adamsharifc-p.vercel.app/api/isUniqueUsername', {
+        const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/isUniqueUsername', {
           username: this.username,
         });
         if (response.data.isUnique == true) {
@@ -54,7 +54,7 @@ export default {
     },
     async isUniqueEmail() {
       try {
-        const response = await axios.get('http://final-project-adamsharifc-p.vercel.app/api/isUniqueEmail', {
+        const response = await axios.get('https://final-project-adamsharifc-p.vercel.app/api/isUniqueEmail', {
           email: this.email,
         });
         if (response.data.isUnique == true) {
@@ -101,7 +101,7 @@ export default {
 
 
       try {
-        const response = await axios.post('http://final-project-adamsharifc-p.vercel.app/api/signup', {
+        const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/signup', {
           name: this.name,
           username: this.username,
           password: this.password,

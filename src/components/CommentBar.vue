@@ -13,7 +13,7 @@ export default{
             try{
                 
                 console.log("I was clicked");
-                const response = await axios.post('http://final-project-adamsharifc-p.vercel.app/api/submitComment', {
+                const response = await axios.post('https://final-project-adamsharifc-p.vercel.app/api/submitComment', {
                     comment: this.comment,
                     addedBy: authStore.getUsername(),
                     bugId: authStore.getBugID(),

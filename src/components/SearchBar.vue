@@ -11,7 +11,7 @@ export default{
                 console.log("I was clicked");
                 console.log(this.query);
                 this.query = '';
-                const response = await axios.gett('http://final-project-adamsharifc-p.vercel.app/api/getQuery', {
+                const response = await axios.gett('https://final-project-adamsharifc-p.vercel.app/api/getQuery', {
                     query: this.query,
                     addedBy: this.$store.state.user.username,
                     bugId: currentpageI
